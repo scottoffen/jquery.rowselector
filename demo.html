@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang=en>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<title>jQuery Selectables Plugin Demo</title>
+
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+
+		<style>
+		*.unselectable
+		{
+			-webkit-touch-callout: none;
+			  -webkit-user-select: none;
+			   -khtml-user-select: none;
+			     -moz-user-select: none;
+			      -ms-user-select: none;
+			          user-select: none;
+		}
+
+		.table-striped > tbody > tr:nth-child(odd).selected > td
+		{
+			background-color: #9FAFD1;
+		}
+
+		.table-striped > tbody > tr:nth-child(even).selected > td
+		{
+			background-color: #B0BED9;
+		}
+		</style>
+
+		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+		<!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+
+		<!--[if !IE]>-->
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+		<!--<![endif]-->
+
+		<!--[if IE]>
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		<![endif]-->
+
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+		<script src="jquery.selectables.js"></script>
+		<script>
+			$(document).ready(function ()
+			{
+				var cls = 'selected';
+
+				$('#demo').selectables(cls);
+
+				$('#btnAlert').click(function (evt)
+				{
+					var ids = [];
+
+					$('#demo tr.' + cls).each(function ()
+					{
+						ids.push(this.id);
+					});
+
+					alert("Selected Ids : " +  ids.join(", "));
+				});
+			});
+		</script>
+	</head>
+	<body>
+		<div class="container" role="main">
+			<table id="demo" cellpadding=0 cellspacing=0 border=0 class="table table-striped">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Col 1</th>
+						<th>Col 2</th>
+						<th>Col 3</th>
+						<th>Col 4</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr id="0"><td>0</td><td>R0C1</td><td>R0C2</td><td>R0C3</td><td>R0C4</td></tr>
+					<tr id="1"><td>1</td><td>R1C1</td><td>R1C2</td><td>R1C3</td><td>R1C4</td></tr>
+					<tr id="2"><td>2</td><td>R2C1</td><td>R2C2</td><td>R2C3</td><td>R2C4</td></tr>
+					<tr id="3"><td>3</td><td>R3C1</td><td>R3C2</td><td>R3C3</td><td>R3C4</td></tr>
+					<tr id="4"><td>4</td><td>R4C1</td><td>R4C2</td><td>R4C3</td><td>R4C4</td></tr>
+					<tr id="5"><td>5</td><td>R5C1</td><td>R5C2</td><td>R5C3</td><td>R5C4</td></tr>
+					<tr id="6"><td>6</td><td>R6C1</td><td>R6C2</td><td>R6C3</td><td>R6C4</td></tr>
+					<tr id="7"><td>7</td><td>R7C1</td><td>R7C2</td><td>R7C3</td><td>R7C4</td></tr>
+					<tr id="8"><td>8</td><td>R8C1</td><td>R8C2</td><td>R8C3</td><td>R8C4</td></tr>
+					<tr id="9"><td>9</td><td>R9C1</td><td>R9C2</td><td>R9C3</td><td>R9C4</td></tr>
+				</tbody>
+			</table>
+			<button id="btnAlert" class="btn btn-primary">Selected Rows</button>
+		</div>
+	</body>
+</html>
