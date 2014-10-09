@@ -1,0 +1,42 @@
+{
+    "name"         : "selectables",
+    "version"      : "1.0.0",
+    "title"        : "Selectables",
+    "author"       :
+    {
+        "name"  : "Scott Offen",
+        "email" : "developer@scottoffen.com",
+        "url"   : "http://www.scottoffen.com"
+    },
+    "licenses"     :
+    [
+        {
+            "type" : "Apache-2.0",
+            "url"  : "https://raw.githubusercontent.com/scottoffen/jquery.selectables/master/LICENSE"
+        }
+    ],
+    "dependencies" :
+    {
+        "jquery": ">=1.11.1"
+    },
+    "description"  : "jQuery plugin for selecting/deselecting multiple rows in a table using click and shift-clicks.",
+    "keywords"     :
+    [
+        "table",
+        "multiselect",
+        "rows",
+        "select-multiple-rows",
+        "shift-click-select-rows"
+    ],
+    "maintainers"  :
+    [
+        {
+            "name"  : "Scott Offen",
+            "email" : "developer@scottoffen.com",
+            "url"   : "http://www.scottoffen.com"
+        }
+    ],
+    "homepage"     : "https://github.com/scottoffen/jquery.selectables",
+    "bugs"         : "https://github.com/scottoffen/jquery.selectables/issues",
+    "docs"         : "https://github.com/scottoffen/jquery.selectables/wiki"
+}
