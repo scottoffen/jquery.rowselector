@@ -3,11 +3,11 @@ jQuery Row Selector - Selectable Table Rows
 
 Select and deselect single or multiple rows in a table using click and shift-click, and easily lock your selections at any time and get the rows selected.
 
-**Row Selector** works by adding or removing a class to the row (`tbody > tr`) clicked and - if the shift key was pressed - the rows in between the row clicked on and the previous row clicked on. Multiple tables on the same page can be using the plugin at the same time without any additional effort on your part!
+**Row Selector** works by adding or removing a class (the default class is `selected`, but you can specify one as well) to the row (`tbody > tr`) clicked and - if the shift key was pressed - the rows in between the row clicked on and the previous row clicked on. Multiple tables on the same page can be using the plugin at the same time without any additional effort on your part!
 
 >**The Multiple Row Rule**: If the **shift key** is pressed **AND** the row clicked on and the previous row clicked on (in the same table) both either *have* or *don't have* the specified class, apply the same change to all rows in the range between the row clicked and the last row clicked.
 
-It sounds more complex than it actually is. Check out the `demo.html` file for a working example.
+It sounds more complex than it actually is. Check out the [`demo.html`](https://github.com/scottoffen/jquery.rowselector/blob/master/demo.html) file for a working example.
 
 ## Usage ##
 
@@ -16,13 +16,6 @@ It sounds more complex than it actually is. Check out the `demo.html` file for a
 Include [jQuery](http://jquery.com/download/#using-jquery-with-a-cdn "I choose to use the Google CDN") and this library, and that's really all you need. If you are going to use [Bootstrap](http://getbootstrap.com/getting-started/#download) (not required), you'll want to add references to those style sheets.  Here is a good template:
 
 ```html
-<head>
-	...
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-
-	<style>...</style>
-	
 	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 	<!--[if lt IE 9]>
@@ -38,10 +31,7 @@ Include [jQuery](http://jquery.com/download/#using-jquery-with-a-cdn "I choose t
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<![endif]-->
 	
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 	<script src="jquery.rowselector.js"></script>
-	<script>...</script>
-</head>
 ```
 
 ### Make Your Table Selectable ###
@@ -56,11 +46,11 @@ All you have to do is add a [custom HTML5 `data-*` attribute](https://developer.
 <table id="your-table" data-rs-selectable data-rs-type="many" data-rs-class="selected">
 ```
 
-#### data-rs-selectable ####
+#### `data-rs-selectable` ####
 
 This attribute informs the plugin that you want it to apply row selections based on the values of the other attributes - both of which are optional!
 
-#### data-rs-type ####
+#### `data-rs-type` ####
 
 This attribute specifices how rows should be selected and unselected - or *not* selected - in a given table.
 
@@ -72,7 +62,7 @@ This attribute specifices how rows should be selected and unselected - or *not* 
 | one            | Enforces the selection of a single row at a time | 
 | none           | Does not allow row selection, but doesn't remove selections already made |
 
-#### data-rs-class ####
+#### `data-rs-class` ####
 
 This attribute defines the CSS class that will be added or removed from rows when selected. If not specified, it defaults to `selected`.
 
@@ -165,3 +155,11 @@ $('#your-table').attr('data-rs-type', 'none');
 ```
 
 When you are ready to resume selecting again, just change it back to either `many` or `one`.
+
+### Multiple Selection Classes ###
+
+Since the value of `data-rs-class` can be changed on-the-fly - it's just an attribute on an element, after all - you can create different - and even overlapping - sets of selections.
+
+>This is a pretty advanced topic, and may produce unintended results if not well considered before using. You'll see this in action if you play around with the demo. While it was not an intended use case when I developed this plugin, it has emerged as an interesting feature that I wanted to document.
+
+When the value of `data-rs-class` changes, there is nothing in place to remove from already selected rows the previous value, so it is still there. When `$('#your-table').selectedrows()` gets called, it matches elements with the class specified in `data-rs-class` (or the default) at the time the method is called. 

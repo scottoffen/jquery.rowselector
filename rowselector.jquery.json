@@ -1,7 +1,7 @@
 {
-    "name"         : "selectables",
+    "name"         : "rowselector",
     "version"      : "1.0.0",
-    "title"        : "Selectables",
+    "title"        : "Row Selector",
     "author"       :
     {
         "name"  : "Scott Offen",
@@ -12,7 +12,7 @@
     [
         {
             "type" : "Apache-2.0",
-            "url"  : "https://raw.githubusercontent.com/scottoffen/jquery.selectables/master/LICENSE"
+            "url"  : "https://raw.githubusercontent.com/scottoffen/jquery.rowselector/master/LICENSE"
         }
     ],
     "dependencies" :
@@ -23,8 +23,10 @@
     "keywords"     :
     [
         "table",
+        "tables",
         "multiselect",
         "rows",
+        "select",
         "select-multiple-rows",
         "shift-click-select-rows"
     ],
@@ -36,7 +38,7 @@
             "url"   : "http://www.scottoffen.com"
         }
     ],
-    "homepage"     : "https://github.com/scottoffen/jquery.selectables",
-    "bugs"         : "https://github.com/scottoffen/jquery.selectables/issues",
-    "docs"         : "https://github.com/scottoffen/jquery.selectables/wiki"
+    "homepage"     : "https://github.com/scottoffen/jquery.rowselector",
+    "bugs"         : "https://github.com/scottoffen/jquery.rowselector/issues",
+    "docs"         : "https://github.com/scottoffen/jquery.rowselector/wiki"
 }
