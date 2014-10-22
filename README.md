@@ -127,7 +127,7 @@ If you add an event handler to the table to be notified when rows are *clicked*,
 You can add a listener for and take action on that event firing, knowing that the plugin has finished doing it's job before you request the list of selected rows.
 
 ```javascript
-$('#your-table').on('clicked.rs.rows', function (evt)
+$('#your-table').on('clicked.rs.row', function (evt)
 {
 	// Now it's safe to check what was selected
 	var rows = $(this).selectedrows();
