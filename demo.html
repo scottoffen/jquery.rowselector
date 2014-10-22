@@ -11,25 +11,42 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
 
 		<style>
-		*.unselectable
-		{
-			-webkit-touch-callout: none;
-			  -webkit-user-select: none;
-			   -khtml-user-select: none;
-			     -moz-user-select: none;
-			      -ms-user-select: none;
-			          user-select: none;
-		}
+			body
+			{
+				padding-top: 70px;
+			}
 
-		.table-striped > tbody > tr:nth-child(odd).selected > td
-		{
-			background-color: #9FAFD1;
-		}
+			*.unselectable
+			{
+				-webkit-touch-callout: none;
+				  -webkit-user-select: none;
+				   -khtml-user-select: none;
+				     -moz-user-select: none;
+				      -ms-user-select: none;
+				          user-select: none;
+			}
 
-		.table-striped > tbody > tr:nth-child(even).selected > td
-		{
-			background-color: #B0BED9;
-		}
+			.table-striped > tbody > tr:nth-child(odd).selected > td
+			{
+				background-color: #9FAFD1;
+			}
+
+			.table-striped > tbody > tr:nth-child(even).selected > td
+			{
+				background-color: #B0BED9;
+			}
+
+			.table-striped > tbody > tr:nth-child(odd).bnw > td
+			{
+				background-color: #2b2b2b;
+				color: #f2f2f2;
+			}
+
+			.table-striped > tbody > tr:nth-child(even).bnw > td
+			{
+				background-color: #f2f2f2;
+				color: #2b2b2b;
+			}
 		</style>
 
 		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -48,54 +65,105 @@
 		<![endif]-->
 
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-		<script src="jquery.selectables.js"></script>
+		<script src="jquery.rowselector.js"></script>
 		<script>
 			$(document).ready(function ()
 			{
-				var cls = 'selected';
-
-				$('#demo').selectables(cls);
-
-				$('#btnAlert').click(function (evt)
+				$('#config-form').on('submit', function (evt)
 				{
-					var ids = [];
+					evt.preventDefault();
+				});
 
-					$('#demo tr.' + cls).each(function ()
+
+				$('#btn-show').on('click', function (evt)
+				{
+					var selected = [];
+					$('#user-table').selectedrows().each(function (idx, el)
 					{
-						ids.push(this.id);
+						selected.push(el.id);
 					});
 
-					alert("Selected Ids : " +  ids.join(", "));
+					alert('Selected Ids:\n' + selected.join(', '));
+				});
+
+
+				$('#select-type').on('change', function (evt)
+				{
+					$('#user-table').attr('data-rs-type', $(this).val());
+				});
+
+
+				$('#select-class').on('change', function (evt)
+				{
+					$('#user-table').attr('data-rs-class', $(this).val());
+				});
+
+
+				$('#user-table').on('clicked.rs.row', function (evt)
+				{
+					var rows = $(this).selectedrows().length;
+					$('#num-selected').text(rows);
 				});
 			});
 		</script>
 	</head>
 	<body>
-		<div class="container" role="main">
-			<table id="demo" cellpadding=0 cellspacing=0 border=0 class="table table-striped">
-				<thead>
-					<tr>
-						<th>#</th>
-						<th>Col 1</th>
-						<th>Col 2</th>
-						<th>Col 3</th>
-						<th>Col 4</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr id="0"><td>0</td><td>R0C1</td><td>R0C2</td><td>R0C3</td><td>R0C4</td></tr>
-					<tr id="1"><td>1</td><td>R1C1</td><td>R1C2</td><td>R1C3</td><td>R1C4</td></tr>
-					<tr id="2"><td>2</td><td>R2C1</td><td>R2C2</td><td>R2C3</td><td>R2C4</td></tr>
-					<tr id="3"><td>3</td><td>R3C1</td><td>R3C2</td><td>R3C3</td><td>R3C4</td></tr>
-					<tr id="4"><td>4</td><td>R4C1</td><td>R4C2</td><td>R4C3</td><td>R4C4</td></tr>
-					<tr id="5"><td>5</td><td>R5C1</td><td>R5C2</td><td>R5C3</td><td>R5C4</td></tr>
-					<tr id="6"><td>6</td><td>R6C1</td><td>R6C2</td><td>R6C3</td><td>R6C4</td></tr>
-					<tr id="7"><td>7</td><td>R7C1</td><td>R7C2</td><td>R7C3</td><td>R7C4</td></tr>
-					<tr id="8"><td>8</td><td>R8C1</td><td>R8C2</td><td>R8C3</td><td>R8C4</td></tr>
-					<tr id="9"><td>9</td><td>R9C1</td><td>R9C2</td><td>R9C3</td><td>R9C4</td></tr>
-				</tbody>
-			</table>
-			<button id="btnAlert" class="btn btn-primary">Selected Rows</button>
+		<div class="navbar navbar-default navbar-fixed-top">
+			<div class="container">
+				<div class="navbar-header">
+					<a class="navbar-brand">Row Selector + Bootstrap Demo</a>
+				</div>
+				<form id="config-form" class="navbar-form navbar-left" role="form">
+					<div class="form-group">
+						<div class="input-group">
+							<div class="input-group-addon">data-rs-type</div>
+							<select id="select-type" class="form-control input-sm">
+								<option value="many">many</option>
+								<option value="one">one</option>
+								<option value="none">none</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="input-group">
+							<div class="input-group-addon">data-rs-class</div>
+							<select id="select-class" class="form-control input-sm">
+								<option value="selected">selected (default)</option>
+								<option value="bnw">bnw (Black and white)</option>
+							</select>
+						</div>
+					</div>
+					<button type="button" id="btn-show" class="btn btn-primary btn-sm">Selected Ids</button>
+				</form>
+			</div>
+		</div>
+
+		<div class="container">
+			<div class="row">
+				<h4>Selected: <span id="num-selected">0</span></h4>
+				<table id="user-table" data-rs-selectable data-rs-type="many" class="table table-striped" cellpadding=0 cellspacing=0 border=0>
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>First Name</th>
+							<th>Last Name</th>
+							<th>Username</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr id="0"><td>0</td><td>James</td><td>Smith</td><td>jsmith</td></tr>
+						<tr id="1"><td>1</td><td>John</td><td>Johnson</td><td>jjohnson</td></tr>
+						<tr id="2"><td>2</td><td>Robert</td><td>Williams</td><td>rwilliams</td></tr>
+						<tr id="3"><td>3</td><td>Michael</td><td>Jones</td><td>mjones</td></tr>
+						<tr id="4"><td>4</td><td>Wiliam</td><td>Brown</td><td>wbrown</td></tr>
+						<tr id="5"><td>5</td><td>David</td><td>Davis</td><td>ddavis</td></tr>
+						<tr id="6"><td>6</td><td>Richard</td><td>Miller</td><td>rmiller</td></tr>
+						<tr id="7"><td>7</td><td>Charles</td><td>Wilson</td><td>cwilson</td></tr>
+						<tr id="8"><td>8</td><td>Joseph</td><td>Moore</td><td>jmoore</td></tr>
+						<tr id="9"><td>9</td><td>Thomas</td><td>Taylor</td><td>ttaylor</td></tr>
+					</tbody>
+				</table>
+			</div>
 		</div>
 	</body>
 </html>

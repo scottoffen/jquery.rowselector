@@ -1,21 +1,86 @@
-jQuery Selectables - Selectable Tables
-======================================
+jQuery Row Selector - Selectable Table Rows
+===========================================
 
-Select and deselect multiple rows in a table using click and shift-click.
+Select and deselect single or multiple rows in a table using click and shift-click, and easily lock your selections at any time and get the rows selected.
 
-Selectables works by adding or removing a class to the row (`tbody > tr`) clicked and - if the shift key was pressed - the rows in between the row clicked on and the previous row clicked on.
+**Row Selector** works by adding or removing a class to the row (`tbody > tr`) clicked and - if the shift key was pressed - the rows in between the row clicked on and the previous row clicked on. Multiple tables on the same page can be using the plugin at the same time without any additional effort on your part!
 
-The CSS class used is `selected` by default, but can be anything you specify.
+>**The Multiple Row Rule**: If the **shift key** is pressed **AND** the row clicked on and the previous row clicked on (in the same table) both either *have* or *don't have* the specified class, apply the same change to all rows in the range between the row clicked and the last row clicked.
 
->**The Multiple Row Rule**: If the **shift key** is pressed **AND** the row clicked on and the previous row clicked on both either have or don't have the specified class, apply the same change to all rows in the range between the row clicked and the last row clicked.
+It sounds more complex than it actually is. Check out the `demo.html` file for a working example.
 
-It sounds more complex than it actually is. Check out the demo for a working example.
+## Usage ##
+
+### Set Up ###
+
+Include [jQuery](http://jquery.com/download/#using-jquery-with-a-cdn "I choose to use the Google CDN") and this library, and that's really all you need. If you are going to use [Bootstrap](http://getbootstrap.com/getting-started/#download) (not required), you'll want to add references to those style sheets.  Here is a good template:
+
+```html
+<head>
+	...
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+
+	<style>...</style>
+	
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+		<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+		<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+	
+	<!--[if !IE]>-->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<!--<![endif]-->
+	
+	<!--[if IE]>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<![endif]-->
+	
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+	<script src="jquery.rowselector.js"></script>
+	<script>...</script>
+</head>
+```
+
+### Make Your Table Selectable ###
+
+All you have to do is add a [custom HTML5 `data-*` attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes#data-*) or two to your table to make it selectable, and you can do it an any time!
+
+```html
+<!-- Minimum Required -->
+<table id="your-table" data-rs-selectable>
+
+<!-- Explicit Definitions -->
+<table id="your-table" data-rs-selectable data-rs-type="many" data-rs-class="selected">
+```
+
+#### data-rs-selectable ####
+
+This attribute informs the plugin that you want it to apply row selections based on the values of the other attributes - both of which are optional!
+
+#### data-rs-type ####
+
+This attribute specifices how rows should be selected and unselected - or *not* selected - in a given table.
+
+>Note that all attribute values are case-sensative.
+
+| Value          | Description |
+| -------------- | ----------- |
+| many (default) | Allows selection of multiple rows |
+| one            | Enforces the selection of a single row at a time | 
+| none           | Does not allow row selection, but doesn't remove selections already made |
+
+#### data-rs-class ####
+
+This attribute defines the CSS class that will be added or removed from rows when selected. If not specified, it defaults to `selected`.
 
 ### Visual Indicators ###
 
 If you want the selected rows to change visually (e.g., changing the background color on selected rows), then make sure you define that in your CSS somewhere. Keep [CSS precedence](http://www.vanseodesign.com/css/css-specificity-inheritance-cascaade/) in mind!
 
-For example, if I were using [Bootstrap](http://www.getbootstrap.com) to style my table with odd/even row striping, I would need to make sure the definition for the CSS was at least as specific as the Bootstrap definition (using [CSS descendant selectors](https://developer.mozilla.org/en-US/docs/Web/CSS/Descendant_selectors)).
+For example, if I were using [Bootstrap](http://www.getbootstrap.com) to style my table with odd/even row striping (and using the default `.selected` class), I would need to make sure the definition for the CSS was at least as specific as the Bootstrap definition (using [CSS descendant selectors](https://developer.mozilla.org/en-US/docs/Web/CSS/Descendant_selectors)).
 
 ```css
 .table-striped > tbody > tr:nth-child(odd).selected > td
@@ -31,45 +96,9 @@ For example, if I were using [Bootstrap](http://www.getbootstrap.com) to style m
 
 ### Prevent Text Selection ###
 
-By default, Selectables will attempt to help you prevent the selection of all the text in a range of rows when the shift key is used by adding an `unselectable` class to the table and setting the value of the [`unselectable`](http://msdn.microsoft.com/en-us/library/ms537840(v=vs.85).aspx) attribute for the table to `on`.
+By default, the plugin will attempt to help you prevent the selection of all the text in a range of rows when the shift key is used by adding an `.unselectable` class to the table and setting the value of the [`unselectable`](http://msdn.microsoft.com/en-us/library/ms537840(v=vs.85).aspx) attribute for the table to `on`.
 
-For Selectables to help you, **you will need to define** the `unselectable` class in your CSS like this:
-
-```css
-*.unselectable
-{
-	-webkit-touch-callout: none;
-	  -webkit-user-select: none;
-	   -khtml-user-select: none;
-	     -moz-user-select: none;
-	      -ms-user-select: none;
-	          user-select: none;
-}
-```
-
-## Usage ##
-
-Given a table with an id of `mytable`, in your JavaScript:
-
-```javascript
-$('#mytable').selectables();
-```
-
-If you want to use the class `custom-class` instead of the default `selected` class:
-
-```javascript
-$('#mytable').selectables('custom-class');
-```
-
-Just make sure that whatever class name you use - be it the default or otherwise - that you include an appropriate style definition as detailed above if you want to apply visual indicators.
-
-### Example ###
-
->In this example I use Bootstrap to handle my table styling, but Bootstrap is NOT a dependency for this plugin.
-
-**CSS**
-
-Define `unselectable` and your visual indicators in your CSS.
+For this to work, **you will need to define** the `.unselectable` class in your CSS like this:
 
 ```css
 *.unselectable
@@ -81,73 +110,58 @@ Define `unselectable` and your visual indicators in your CSS.
 	      -ms-user-select: none;
 	          user-select: none;
 }
-
-.table-striped > tbody > tr:nth-child(odd).selected > td
-{
-	background-color: #9FAFD1;
-}
-
-.table-striped > tbody > tr:nth-child(even).selected > td
-{
-	background-color: #B0BED9;
-}
 ```
 
-**HTML**
+## Custom Events and Methods ##
 
-In your HTML table, make sure each `tr` in the `tbody` has an `id` attribute.
+The plugin provides a custom event that can be listened for and an method addition to the jQuery prototype to get a list of all rows selected from a table.
 
-```html
-<table id="mytable" cellpadding=0 cellspacing=0 border=0 class="table table-striped">
-	<thead>
-		<tr>
-			<th>#</th>
-			<th>Col 1</th>
-			<th>Col 2</th>
-			<th>Col 3</th>
-			<th>Col 4</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr id="0"><td>0</td><td>R0C1</td><td>R0C2</td><td>R0C3</td><td>R0C4</td></tr>
-		<tr id="1"><td>1</td><td>R1C1</td><td>R1C2</td><td>R1C3</td><td>R1C4</td></tr>
-		<tr id="2"><td>2</td><td>R2C1</td><td>R2C2</td><td>R2C3</td><td>R2C4</td></tr>
-		<tr id="3"><td>3</td><td>R3C1</td><td>R3C2</td><td>R3C3</td><td>R3C4</td></tr>
-		<tr id="4"><td>4</td><td>R4C1</td><td>R4C2</td><td>R4C3</td><td>R4C4</td></tr>
-		<tr id="5"><td>5</td><td>R5C1</td><td>R5C2</td><td>R5C3</td><td>R5C4</td></tr>
-		<tr id="6"><td>6</td><td>R6C1</td><td>R6C2</td><td>R6C3</td><td>R6C4</td></tr>
-		<tr id="7"><td>7</td><td>R7C1</td><td>R7C2</td><td>R7C3</td><td>R7C4</td></tr>
-		<tr id="8"><td>8</td><td>R8C1</td><td>R8C2</td><td>R8C3</td><td>R8C4</td></tr>
-		<tr id="9"><td>9</td><td>R9C1</td><td>R9C2</td><td>R9C3</td><td>R9C4</td></tr>
-	</tbody>
-</table>
-```
+### Prototype Extension : $.fn.selectedrows() ###
 
-**JavaScript**
+This method will return a jQuery wrapped set of all rows that have the class specified by `data-rs-class` at the time the method was called. This means that you can change the class at any time to allow for different - even *intersecting* - rows to be selected.
 
-Apply selectables to your table when the DOM is ready!
+>The first element in the wrapped set returned must be a table and have the data-rs-selectable attribute or *undefined* gets returned.
 
 ```javascript
-$(document).ready(function ()
+var rows = $('#your-table').selectedrows();
+```
+
+>Before you go calling that method every time a row is clicked, you might want to take a look at the custom event the plugin provides.
+
+### Custom Event : clicked.rs.row ###
+
+If you add an event handler to the table to be notified when rows are *clicked*, chances are good that your event handler will fire before the event handler in the plugin has the chance to add/remove the class. 
+
+>This is because the plugin event handler is attached to the `click` event on the `body` and uses the selector `table[data-rs-selectable] tr` to take action only on the tables that have the attribute. In contrast, your event handler would most likely be attached to the table using the `#your-table tr` selector, and hence would be fired first.
+
+You can add a listener for and take action on that event firing, knowing that the plugin has finished doing it's job before you request the list of selected rows.
+
+```javascript
+$('#your-table').on('clicked.rs.rows', function (evt)
 {
-	$('#mytable').selectables();
+	// Now it's safe to check what was selected
+	var rows = $(this).selectedrows();
 });
 ```
 
-It can even be applied to multiple tables simultaneously!
+## Edge Cases ##
 
-## Discovering Selected Rows ##
+### Prevent Event Firing ###
 
-Getting a list of the ids of all selected rows is as easy as [ABC 123](http://www.youtube.com/watch?v=WqIeso6SBm0)!
+If you want to have an element (such as an icon) in a given row that you want to be able to click and not change the selected state of the row, just include the following in your `click` event handler for that element:
 
 ```javascript
-var ids = [];
-
-$('#mytable tr.selected').each(function ()
-{
-	ids.push(this.id);
-});
-
-alert("Selected Rows : " +  ids.join(", "));
-
+evt.stopPropagation();
 ```
+
+And the event included in the plugin will not fire.
+
+### Lock Selections ###
+
+If at any point in time you want to freeze the selected state of all rows in the table without losing the ability to get the selected rows using the prototype extension:
+
+```javascript
+$('#your-table').attr('data-rs-type', 'none');
+```
+
+When you are ready to resume selecting again, just change it back to either `many` or `one`.
