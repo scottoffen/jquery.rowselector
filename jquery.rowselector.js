@@ -1,13 +1,13 @@
 (function ($)
 {
-	$.fn.selected = function ()
+	$.fn.selectedrows = function ()
 	{
 		var table = $(this[0]);
 		var match = undefined;
 
-		if ((table.prop('tagName').toUpperCase() === 'TABLE') && (table.attr('data-selectable')))
+		if ((table.prop('tagName').toUpperCase() === 'TABLE') && (typeof table.attr('data-rs-selectable') !== 'undefined'))
 		{
-			var c = table.attr('data-selected-class') || 'selected';
+			var c = table.attr('data-rs-class') || 'selected';
 			match = $(table).find('tbody tr.' + c);
 		}
 
@@ -20,23 +20,23 @@ $(document).ready(function ()
 {
 	var tables = {};
 
-	$('body').on('mouseover', 'table[data-selectable]', function (evt)
+	$('body').on('mouseover', 'table[data-rs-selectable]', function (evt)
 	{
 		$(this).addClass('unselectable').attr('unselectable', 'on');
 	});
 
 
-	$('body').on('click', 'table[data-selectable] tr', function (evt)
+	$('body').on('click', 'table[data-rs-selectable] tr', function (evt)
 	{
 		var $this = $(this);
 		var table = $this.closest('table');
 
-		var q = table.attr('data-selectable') || false;
-		var c = table.attr('data-selected-class') || 'selected';
+		var t = table.attr('data-rs-type')  || 'many';
+		var c = table.attr('data-rs-class') || 'selected';
 
-		if (q !== 'none')
+		if (t !== 'none')
 		{
-			if (q === 'one')
+			if (t === 'one')
 			{
 				$(this).siblings().removeClass(c).end().addClass(c);
 			}
@@ -72,5 +72,6 @@ $(document).ready(function ()
 		}
 
 		tables[table.id] = this;
+		$(table).trigger("clicked.rs.row");
 	});
 });
