@@ -26,7 +26,7 @@ $(document).ready(function ()
 	});
 
 
-	$('body').on('click', 'table[data-rs-selectable] tr', function (evt)
+	$('body').on('click', 'table[data-rs-selectable] tr:not(.disabled)', function (evt)
 	{
 		var $this = $(this);
 		var table = $this.closest('table');
